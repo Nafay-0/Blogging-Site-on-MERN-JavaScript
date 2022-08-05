@@ -6,6 +6,8 @@ const Blog = require('../Models/Blog');
 exports.createBlog = async (req,res,next) =>{
     const Blog = new Blog({
 
+    })
+
 }
 
 exports.getBlogs = (req,res,next) =>{

@@ -4,9 +4,9 @@
   "description": "mern stack based blogging website",
   "main": "server.js",
   "scripts": {
-    "start" : "node backend/server.js",
-    "dev" : "SET NODE.ENV = DEVELOPMENT && nodemon backend/server.js",
-    "prod" : "SET NODE.ENV = PRODUCTION && nodemon backend/server.js"
+    "start": "node backend/server.js",
+    "dev": "SET NODE.ENV = DEVELOPMENT && nodemon backend/server.js",
+    "prod": "SET NODE.ENV = PRODUCTION && nodemon backend/server.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Nafay-0/Blogging-Site#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "install": "^0.13.0",
