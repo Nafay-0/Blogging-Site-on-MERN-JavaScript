@@ -99,8 +99,6 @@ exports.updateUser = async (req, res, next) => {
 
 }
 
-
-
 exports.deleteUser = async (req, res, next) => {
     try {
         const user = await User.findByIdAndDelete(req.params.id);
@@ -121,7 +119,6 @@ exports.deleteUser = async (req, res, next) => {
 exports.Login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-        password = await bcrypt.hash(password, 10);
         const user = await User.findOne({ email: email });
         if (!user) {
             res.status(401).json({
@@ -142,6 +139,7 @@ exports.Login = async (req, res, next) => {
             user: user
         });
     } catch (err) {
+        console.log(err);
         res.status(500).json({
             success: false,
             message: 'User could not be logged in',
