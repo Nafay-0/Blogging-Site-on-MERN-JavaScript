@@ -8,7 +8,9 @@ const ReviewSchema = new Schema({
     },
     Rating: {
         type: Number,
-        required: true
+        required: true,
+        min: 1,
+        max: 5  
     },
     User : {
         type: Schema.Types.ObjectId,
@@ -20,3 +22,5 @@ const ReviewSchema = new Schema({
         ref: 'Blog',
         required: true
     }});
+
+    module.exports = mongoose.model('Review', ReviewSchema);

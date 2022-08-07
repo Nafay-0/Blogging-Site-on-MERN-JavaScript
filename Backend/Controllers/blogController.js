@@ -1,6 +1,7 @@
 
 const User = require('../Models/User');
 const Blog = require('../Models/Blog');
+const Review = require('../Models/Review');
 
 
 
@@ -117,6 +118,52 @@ exports.DeleteBlog = async (req, res, next) => {
         res.status(500).json({
             success: false,
             message: 'Blog could not be deleted',
+            error: err
+        });
+    }
+}
+
+
+exports.addReview = async (req, res, next) => {
+    try{
+        let { Comment, Rating, User } = req.body;
+        let review = await Review.create({
+            Comment: Comment,
+            Rating: Rating,
+            User: User,
+            Blog: req.params.id
+        });
+        res.status(200).json({
+            success: true,
+            message: 'Review created successfully',
+            review: review
+        });
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({
+            
+            success: false,
+            message: 'Review could not be created',
+            error: err
+        });
+    }
+}
+
+
+
+exports.getReviewsByBlog = async (req, res, next) => {
+    try {
+        const reviews = await Review.find({ Blog: req.params.id });
+        res.status(200).json({
+            success: true,
+            message: 'Reviews fetched successfully',
+            reviews: reviews
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: 'Reviews could not be fetched',
             error: err
         });
     }

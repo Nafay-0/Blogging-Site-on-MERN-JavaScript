@@ -7,7 +7,9 @@ const { getAllBlogs,
     getBlogById,
     getBlogByAuthor,
     updateBlog,
-    DeleteBlog } = require('../Controllers/BlogController');
+    DeleteBlog,
+    addReview,
+    getReviewsByBlog } = require('../Controllers/BlogController');
 
 router.route('/').get(getAllBlogs);
 router.route('/').post(createBlog);
@@ -15,6 +17,7 @@ router.route('/:id').get(getBlogById);
 router.route('/author/:id').get(getBlogByAuthor);
 router.route('/:id').put(updateBlog);
 router.route('/:id').delete(DeleteBlog);
-
+router.route('/:id/review').post(addReview);
+router.route('/:id/review').get(getReviewsByBlog);
 
 module.exports = router;
