@@ -25,7 +25,12 @@ const blogSchema = new Schema({
     },
     Slug: {
         type: String,
-        required: true
+        required: true,
+        unique: true,
+        default:  function() {
+            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        }
+        
     },
     images:[
         {
@@ -47,9 +52,7 @@ const blogSchema = new Schema({
         }
     },
     Author : {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        type: String
     },
     Reviews:[
         {
