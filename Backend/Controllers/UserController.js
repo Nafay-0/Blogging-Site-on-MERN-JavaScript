@@ -1,6 +1,7 @@
 const User = require('../Models/User');
 const bcrypt = require('bcryptjs');
 const ErrorHandler = require('../utils/errorHandler');
+const sendToken = require('../utils/jwtToken');
 
 exports.getAllUsers = async (req, res, next) => {
     try {
@@ -48,23 +49,7 @@ exports.createUser = async (req, res, next) => {
             email: email,
             password: password
         });
-        res.status(200).json({
-            success: true,
-            message: 'User created successfully',
-            user: user
-        });
-        // save the user
-        try {
-            user.save();
-        }
-        catch (err) {
-            console.log(err);
-            res.status(500).json({
-                success: false,
-                message: 'User could not be updated',
-                error: err
-            });
-        }
+        sendToken(user,200,res);
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -123,6 +108,9 @@ exports.deleteUser = async (req, res, next) => {
 exports.Login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
+        if(!email || !password){
+            return next(new ErrorHandler(400, 'Please provide email and password'));
+        }
         const user = await User.findOne({ email: email });
         if (!user) {
             res.status(401).json({
@@ -137,11 +125,7 @@ exports.Login = async (req, res, next) => {
                 message: 'Invalid credentials'
             });
         }
-        res.status(200).json({
-            success: true,
-            message: 'User logged in successfully',
-            user: user
-        });
+        sendToken(user,200,res);
     } catch (err) {
         console.log(err);
         res.status(500).json({

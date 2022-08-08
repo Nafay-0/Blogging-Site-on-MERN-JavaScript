@@ -1,6 +1,7 @@
 const express = require('express');
 const { builtinModules } = require('module');
 const router = express.Router();
+const {isAuthenticated} = require('../middlewares/auth');
 
 const { getAllBlogs,
     createBlog,
