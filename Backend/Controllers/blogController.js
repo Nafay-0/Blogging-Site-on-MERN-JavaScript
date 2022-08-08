@@ -3,6 +3,7 @@ const User = require('../Models/User');
 const Blog = require('../Models/Blog');
 const Review = require('../Models/Review');
 
+const APIfeatures = require('../utils/apiFeatures');
 
 
 exports.createBlog = async (req, res, next) => {
@@ -31,16 +32,25 @@ exports.createBlog = async (req, res, next) => {
 
 exports.getAllBlogs = async (req, res, next) => {
     try {
-        const blogs = await Blog.find();
+
+        const ResultsPerPage = 4;
+
+        const BlogCount = await Blog.countDocuments();
+
+        const features = new APIfeatures(Blog.find(), req.query).search().filter().pagination(ResultsPerPage);
+
+        const blogs = await features.query;
         res.status(200).json({
             success: true,
             message: 'Blogs fetched successfully',
+            BlogCount: BlogCount,
             blogs: blogs
         });
     } catch (err) {
         res.status(500).json({
             success: false,
             message: 'Blogs could not be fetched',
+            BlogCount: BlogCount,
             error: err
         });
     }

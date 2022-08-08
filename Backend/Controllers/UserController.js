@@ -1,5 +1,6 @@
 const User = require('../Models/User');
 const bcrypt = require('bcryptjs');
+const ErrorHandler = require('../utils/errorHandler');
 
 exports.getAllUsers = async (req, res, next) => {
     try {
@@ -21,6 +22,9 @@ exports.getAllUsers = async (req, res, next) => {
 exports.getUserById = async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
+        if(!user){
+            return next(new ErrorHandler(404, 'User not found'));
+        }
         res.status(200).json({
             success: true,
             message: 'User fetched successfully',
