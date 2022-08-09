@@ -2,6 +2,8 @@ const User = require('../Models/User');
 const bcrypt = require('bcryptjs');
 const ErrorHandler = require('../utils/errorHandler');
 const sendToken = require('../utils/jwtToken');
+const sendEmail = require('../utils/sendEmail');
+const crypto = require('crypto');
 
 exports.getAllUsers = async (req, res, next) => {
     try {
@@ -121,10 +123,7 @@ exports.Login = async (req, res, next) => {
         else {
             const isMatch = await bcrypt.compare(password, user.password);
             if (!isMatch) {
-                res.status(401).json({
-                    success: false,
-                    message: 'Invalid credentials'
-                });
+                return next(new ErrorHandler(401, 'Invalid credentials'));
             }
             sendToken(user, 200, res);
         }
@@ -135,5 +134,96 @@ exports.Login = async (req, res, next) => {
             message: 'User could not be logged in',
             error: err
         });
+    }
+}
+
+exports.logOutUser = async (req, res, next) => {
+    try {
+
+        //reset cookie
+        res.cookie('jwtToken', null, {
+            expires: new Date(Date.now()),
+            httpOnly: true
+        });
+
+        res.status(200).json({
+            success: true,
+            message: 'User logged out successfully'
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: 'User could not be logged out',
+            error: err
+        });
+    }
+}
+
+//Forgot password
+exports.forgotPassword = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            return next(new ErrorHandler(404, 'User not found'));
+        }
+        const resetToken = user.generatePasswordReset();
+        await user.save({ validateBeforeSave: false });
+        const resetURL = `${req.protocol}://${req.get('host')}/api/users/resetPassword/${resetToken}`;
+        const message = `Forgot your password? Submit a PATCH request with your new password and passwordConfirm to: ${resetURL}.\nIf you did not forget your password, please ignore this email.`;
+        try {
+            await sendEmail({
+                email: email,
+                subject: 'Your password reset token (valid for only 10 minutes)',
+                message: message
+            });
+            res.status(200).json({
+                success: true,
+                message: 'Email sent successfully'
+            });
+
+        }
+        catch (err) {
+            console.log(err);
+            user.passwordResetToken = undefined;
+            user.passwordResetExpires = undefined;
+            await user.save({ validateBeforeSave: false });
+            return next(new ErrorHandler(500, 'There was an error sending the email'));
+        }
+
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: 'User could not be found',
+            error: err
+        });
+    }
+}
+
+exports.resetPassword = async (req, res, next) => {
+    try {
+        console.log(req.params.token);
+        const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
+        console.log(resetPasswordToken);
+        const user = await User.findOne({
+            passwordResetToken: resetPasswordToken,
+            passwordResetExpires: { $gt: Date.now() }
+        });
+        console.log(user);
+        if (!user) {
+            return next(new ErrorHandler(400, 'Password reset token is invalid or has expired'));
+        }
+        if (req.body.password !== req.body.passwordConfirm) {
+            return next(new ErrorHandler(400, 'Passwords do not match'));
+        }
+        user.password = req.body.password;
+        user.passwordResetToken = undefined;
+        user.passwordResetExpires = undefined;
+        await user.save();
+        sendToken(user, 200, res);
+    }
+    catch (err) {
+        console.log(err);
+        return next(new ErrorHandler(500, 'User could not be found'));
     }
 }
