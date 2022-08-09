@@ -23,7 +23,7 @@ exports.getAllUsers = async (req, res, next) => {
 exports.getUserById = async (req, res, next) => {
     try {
         const user = await User.findById(req.params.id);
-        if(!user){
+        if (!user) {
             return next(new ErrorHandler(404, 'User not found'));
         }
         res.status(200).json({
@@ -49,7 +49,7 @@ exports.createUser = async (req, res, next) => {
             email: email,
             password: password
         });
-        sendToken(user,200,res);
+        sendToken(user, 200, res);
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -108,7 +108,7 @@ exports.deleteUser = async (req, res, next) => {
 exports.Login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
-        if(!email || !password){
+        if (!email || !password) {
             return next(new ErrorHandler(400, 'Please provide email and password'));
         }
         const user = await User.findOne({ email: email });
@@ -118,14 +118,16 @@ exports.Login = async (req, res, next) => {
                 message: 'User not found'
             });
         }
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            res.status(401).json({
-                success: false,
-                message: 'Invalid credentials'
-            });
+        else {
+            const isMatch = await bcrypt.compare(password, user.password);
+            if (!isMatch) {
+                res.status(401).json({
+                    success: false,
+                    message: 'Invalid credentials'
+                });
+            }
+            sendToken(user, 200, res);
         }
-        sendToken(user,200,res);
     } catch (err) {
         console.log(err);
         res.status(500).json({

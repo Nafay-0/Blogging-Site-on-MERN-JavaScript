@@ -9,7 +9,7 @@ const sendToken = (User, statusCode, res) => {
         success: true,
         message: 'User logged successfully',
         token: token,
-        User
+        User : User
     })
 }
     module.exports = sendToken;
