@@ -6,7 +6,9 @@ import HomePage from './Pages/HomePage';
 import Navbar from './Components/Layout/Navbar';
 import Footer from './Components/Layout/Footer';
 import LoginPage from './Pages/LoginPage';
+import SignUpPage from './Pages/SignUpPage';
 import { blogList } from './blogData';
+import ProfilePage from './Pages/ProfilePage';
 
 function App() {
 
@@ -16,9 +18,11 @@ function App() {
     
     <div>
       <Navbar/>
-      {/* <HomePage /> */}
+      <HomePage />
       {/* <BlogPage blog={blogList[4]} /> */}
-      <LoginPage />
+      {/* <LoginPage /> */}
+      {/* <SignUpPage /> */}
+      {/* <ProfilePage /> */}
       <Footer />
     </div>
   );

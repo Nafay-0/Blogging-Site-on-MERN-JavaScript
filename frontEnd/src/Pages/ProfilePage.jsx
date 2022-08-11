@@ -110,6 +110,11 @@ const ProfilePage = () => {
                                                 <br />
                                                 <br />
                                             </p>
+                                            <a
+                                            href="#pablo"
+                                            className="font-normal text-pink-500"
+                                            onClick={e => e.preventDefault()}
+                                            >View Blogs by User</a>
                                             
                                             
                                         </div>
