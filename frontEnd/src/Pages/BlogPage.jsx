@@ -7,37 +7,29 @@ import Chip from '../Components/Common/chip';
 import { Link } from 'react-router-dom';
 import { blogList } from '../blogData';
 
-const Blog = () => {
-  const { id } = useParams();
-  const [blog, setBlog] = useState(null);
-
-  useEffect(() => {
-    let blog = blogList.find((blog) => blog.id === parseInt(id));
-    if (blog) {
-      setBlog(blog);
-    }
-  }, []);
-
+const Blog = (props) => {
+  console.log(props);
   return (
     <>
       <Link className='blog-goBack' to='/'>
         <span> &#8592;</span> <span>Go Back</span>
       </Link>
-      {blog ? (
+      {props ? (
         <div className='blog-wrap'>
           <header>
-            <p className='blog-date'>Published {blog.createdAt}</p>
-            <h1>{blog.title}</h1>
+            <p className='blog-date'>Published {props.blog.createdAt}</p>
+            <h1>{props.blog.title}</h1>
             <div className='blog-subCategory'>
-              {blog.subCategory.map((category, i) => (
+              {props.blog.subCategory.map((category, i) => (
                 <div key={i}>
                   <Chip label={category} />
                 </div>
               ))}
+              <h3 className='mt-4 ml-2 text-blue-600'>By : {props.blog.authorName}</h3>
             </div>
           </header>
-          <img src={blog.cover} alt='cover' />
-          <p className='blog-desc'>{blog.description}</p>
+          <img src={props.blog.cover} alt='cover' />
+          <p className='blog-desc'>{props.blog.description}</p>
         </div>
       ) : (
         <EmptyList />
