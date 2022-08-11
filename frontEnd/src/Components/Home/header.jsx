@@ -1,5 +1,4 @@
 import React from "react";
-import MovingText from "react-moving-text";
 
 function Header() {
     return (
@@ -13,18 +12,7 @@ function Header() {
                 Awesome place to make oneself
                 <br /> Prodcutive and entertained
             </p>
-            <MovingText
-                type="animation_type"
-                duration="1000ms"
-                delay="1s"
-                direction="normal"
-                timing="ease"
-                iteration="infinite"
-                fillMode="none"
-                animation_type="Bounce"
-            >
-                Content...
-            </MovingText>
+            
         </header>
     );
 }
