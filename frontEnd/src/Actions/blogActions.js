@@ -10,6 +10,7 @@ import {
 } from '../constants/blogConstants';
 
 export const getBlogs = () => async (dispatch) => {
+    //console.log("Calling getBlogs");
     try{
         dispatch({
             type: FETCH_BLOGS_REQUEST
@@ -29,6 +30,7 @@ export const getBlogs = () => async (dispatch) => {
 }
 
 export const getBlogDetails = (id) => async (dispatch) => {
+    console.log("CALLLING MEEEEE");
     try{
         dispatch({
             type: FETCH_BLOG_DETAILS_REQUEST
@@ -53,3 +55,12 @@ export const clearErrors = () => async (dispatch) => {
         type: CLEAR_ERRORS
     })
 }
+
+// export const searchblogsByCategory = (category,blogs) =>  (dispatch) => {
+//     // filter blogs in the state by category
+//     const filteredBlogs = blogs.filter(blog => blog.category === category);
+//     dispatch({
+//         type: FETCH_BLOGS_SUCCESS,
+//         payload: filteredBlogs
+//     })
+// }
