@@ -5,31 +5,31 @@ import './blogItem.css';
 
 const BlogItem = ({
   blog: {
-    description,
+    content,
     title,
     createdAt,
-    authorName,
+    Author,
     authorAvatar,
     cover,
     category,
-    id,
+    _id,
   },
 }) => {
   return (
     <div className='blogItem-wrap'>
-      <img className='blogItem-cover' src={cover} alt='cover' />
+      <img className='blogItem-cover' src= {'/assets/images/Purple-Combination-colors-graphic-design-predictions-1024x576-1024x576.jpg'} alt='cover' />
       <Chip label={category} />
       <h3>{title}</h3>
-      <p className='blogItem-desc'>{description}</p>
+      <p className='blogItem-desc'>{content}</p>
       <footer>
         <div className='blogItem-author'>
-          <img src={authorAvatar} alt='avatar' />
+          <img src={'/assets/images/author.jpg'} alt='avatar' />
           <div>
-            <h6>{authorName}</h6>
-            <p>{createdAt}</p>
+            <h6>{Author}</h6>
+            <p>{new Date(createdAt).toLocaleDateString()}</p>
           </div>
         </div>
-        <Link className='blogItem-link' to={`/blog/${id}`}>
+        <Link className='blogItem-link' to={`/blog/${_id}`}>
           ➝
         </Link>
       </footer>

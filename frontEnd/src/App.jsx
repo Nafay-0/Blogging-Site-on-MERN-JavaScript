@@ -9,6 +9,7 @@ import LoginPage from './Pages/LoginPage';
 import SignUpPage from './Pages/SignUpPage';
 import { blogList } from './blogData';
 import ProfilePage from './Pages/ProfilePage';
+import { BrowserRouter as Router,Route,Routes } from 'react-router-dom';
 
 function App() {
 
@@ -16,15 +17,19 @@ function App() {
   console.log(FirstBlog);
   return (
     
+    <Router>
     <div>
       <Navbar/>
-      <HomePage />
-      {/* <BlogPage blog={blogList[4]} /> */}
-      {/* <LoginPage /> */}
-      {/* <SignUpPage /> */}
-      {/* <ProfilePage /> */}
-      <Footer />
-    </div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/blog/:id" element={<BlogPage FirstBlog />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+      </Routes>
+      <Footer/>
+      </div>
+    </Router>
   );
 }
 

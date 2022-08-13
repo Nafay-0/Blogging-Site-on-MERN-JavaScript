@@ -6,7 +6,7 @@ export default function BlogList({ blogs }) {
   return (
     <div className='blogList-wrap'>
         {blogs.map(blog => (
-            <BlogItem key={blog.id} blog={blog} />
+            <BlogItem key={blog._id} blog={blog} />
         ))}
     </div>
   )

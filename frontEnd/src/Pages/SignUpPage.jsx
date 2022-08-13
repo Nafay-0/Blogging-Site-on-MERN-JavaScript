@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 
 
 
@@ -76,16 +76,15 @@ const SignUpPage = () => {
                                     <p className="text-center font-semibold mx-4 mb-0">OR</p>
                                 </div>
 
-                                <a
+                                <Link
                                     className="px-7 py-3 bg-slate-900 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center"
-
-                                    href="/"
                                     role="button"
                                     data-mdb-ripple="true"
                                     data-mdb-ripple-color="light"
+                                    to="/login"
                                 >
                                     Already have an account? Sign in
-                                </a>
+                                </Link>
                             </form>
                         </div>
                     </div>

@@ -2,12 +2,15 @@ import {combineReducers, applyMiddleware} from 'redux';
 import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import { legacy_createStore as createStore} from 'redux'
-import blogReducers from './reducers/blogReducers';
+
+import { BlogDetailsReducers,blogReducers } from './reducers/blogReducers';
 const reducer = combineReducers({
-    blog : blogReducers
+    blog : blogReducers,
+    blogDetails : BlogDetailsReducers
 });
 
 let initialState = {
+    
 
 };
 

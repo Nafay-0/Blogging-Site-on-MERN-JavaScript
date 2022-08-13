@@ -32,7 +32,7 @@ exports.createBlog = async (req, res, next) => {
 exports.getAllBlogs = async (req, res, next) => {
     try {
 
-        const ResultsPerPage = 4;
+        const ResultsPerPage = 9;
 
         const BlogCount = await Blog.countDocuments();
 

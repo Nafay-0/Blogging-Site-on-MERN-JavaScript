@@ -1,26 +1,15 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import Header from '../Components/Home/header';
 import BlogList from '../Components/Home/BlogList';
 import Searchbar from '../Components/Home/searchbar';
 import EmptyList from '../Components/Common/emptylist';
-import loading from '../Components/Layout/loading';
+import Loader from '../Components/Layout/loader';
 import { useState, useEffect } from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import {getBlogs} from '../Actions/blogActions';
+import MetaData from '../Components/Layout/metaData'
 function HomePage() {
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getBlogs());
-    } ,[dispatch])
 
-    const {loading,blogs,errors,blogCount} = useSelector(state => state.blog);
-    const [blogsList, setBlogsList] = React.useState(blogs);
-    const [searchKey, setSearchKey] = useState('');
-
-    const handleSearchBar = (e) => {
-        e.preventDefault();
-        handleSearchResults();
-    };
     const handleSearchResults = () => {
         const allBlogs = blogs;
         const filteredBlogs = allBlogs.filter((blog) =>
@@ -33,8 +22,26 @@ function HomePage() {
         setBlogsList(blogs);
         setSearchKey('');
     };
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        console.log("Called");
+        dispatch(getBlogs());
+        console.log(blogs);
+    } ,[dispatch])
+    
+    const {loading,blogs,errors,blogCount} = useSelector(state => state.blog);
+    const [blogsList, setBlogsList] = React.useState(blogs);
+    const [searchKey, setSearchKey] = useState('');
+    const handleSearchBar = (e) => {
+        e.preventDefault();
+        handleSearchResults();
+    };
+    console.log('Rendering HomePage');
     return (
-        <div>
+        <Fragment>
+                <MetaData title="Home" />
+            
             <Header />
             <Searchbar
                 value={searchKey}
@@ -42,11 +49,11 @@ function HomePage() {
                 formSubmit={handleSearchBar}
                 handleSearchKey={(e) => setSearchKey(e.target.value)}
             />
-            
-                {!blogsList.length ? <EmptyList /> : <BlogList blogs={blogsList} />}
-            
-        </div >
+            {loading ? <Loader /> : (
+                (blogsList.length > 0) ? <BlogList blogs={blogsList} /> : <EmptyList />
+                
+            )}
+        </Fragment >
     )
 }
-
 export default HomePage
