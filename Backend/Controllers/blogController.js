@@ -43,13 +43,15 @@ exports.getAllBlogs = async (req, res, next) => {
             success: true,
             message: 'Blogs fetched successfully',
             BlogCount: BlogCount,
-            blogs: blogs
+            blogs: blogs,
+            resPerPage : ResultsPerPage,
         });
     } catch (err) {
         res.status(500).json({
             success: false,
             message: 'Blogs could not be fetched',
             BlogCount: BlogCount,
+            resPerPage : ResultsPerPage,
             error: err
         });
     }

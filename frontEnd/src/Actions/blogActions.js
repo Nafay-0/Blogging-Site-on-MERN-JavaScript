@@ -9,13 +9,13 @@ import {
     FETCH_BLOG_DETAILS_FAILURE
 } from '../constants/blogConstants';
 
-export const getBlogs = () => async (dispatch) => {
+export const getBlogs = (currentPage = 1) => async (dispatch) => {
     //console.log("Calling getBlogs");
     try{
         dispatch({
             type: FETCH_BLOGS_REQUEST
         });
-        const res = await axios.get('/api/blogs');
+        const res = await axios.get(`/api/blogs?page=${currentPage}`);
         dispatch({
             type: FETCH_BLOGS_SUCCESS,
             payload: res.data

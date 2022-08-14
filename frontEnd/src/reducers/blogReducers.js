@@ -18,7 +18,8 @@ export const blogReducers = (state = { blogs: [] }, action) => {
             return {
                 loading: false,
                 blogs: action.payload.blogs,
-                blogsCount: action.payload.BlogsCount
+                BlogCount: action.payload.BlogCount,
+                resPerPage : action.payload.resPerPage,
             };
         case FETCH_BLOGS_FAILURE:
             return {
