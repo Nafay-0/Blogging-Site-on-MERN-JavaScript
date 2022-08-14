@@ -10,7 +10,7 @@ import {
 } from '../constants/blogConstants';
 
 export const getBlogs = (currentPage = 1) => async (dispatch) => {
-    //console.log("Calling getBlogs");
+    
     try{
         dispatch({
             type: FETCH_BLOGS_REQUEST
@@ -28,6 +28,26 @@ export const getBlogs = (currentPage = 1) => async (dispatch) => {
         })
     };
 }
+
+export const FilterByCategory = (category) => async (dispatch) => {
+    try{
+        dispatch({
+            type: FETCH_BLOGS_REQUEST
+        });
+        const res = await axios.get(`/api/blogs?keyword=${category}`);
+        dispatch({
+            type: FETCH_BLOGS_SUCCESS,
+            payload: res.data
+        });
+    }
+    catch (error) {
+        dispatch({
+            type: FETCH_BLOGS_FAILURE,
+            payload: error.response.data.message
+        })
+    };
+}
+
 
 export const getBlogDetails = (id) => async (dispatch) => {
     console.log("CALLLING MEEEEE");

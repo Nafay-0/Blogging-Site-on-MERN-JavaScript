@@ -9,6 +9,7 @@ import {useDispatch,useSelector} from 'react-redux';
 import {getBlogs} from '../Actions/blogActions';
 import MetaData from '../Components/Layout/metaData'
 import Pagination from  'react-js-pagination'
+import {FilterByCategory} from '../Actions/blogActions';
 
 function HomePage() {
 
@@ -20,36 +21,25 @@ function HomePage() {
     const dispatch = useDispatch();
     const [searchKey, setSearchKey] = useState('');
     const {loading,blogs,errors,BlogCount,resPerPage} = useSelector(state => state.blog);
+    
     useEffect(() => {
         console.log("Called");
         dispatch(getBlogs(currentPage));
     }, [dispatch,currentPage]);
-    //setBlogsList(blogs);
-    
-    
 
-    // for Search bar state
-    const handleSearchResults = () => {
-        const allBlogs = blogs;
-        const filteredBlogs = allBlogs.filter((blog) =>
-            blog.category.toLowerCase().includes(searchKey.toLowerCase().trim())
-        );
-        //setBlogsList(filteredBlogs);
-    };
-    
+    useEffect(() => {
+        if(searchKey){
+            dispatch(FilterByCategory(searchKey));
+        }
+    } , [searchKey,dispatch]);
+
     const handleClearSearch = () => {
-        // setBlogsList(blogs);
-        // for state set blog list to original list
         setSearchKey('');
     };
     const handleSearchBar = (e) => {
         e.preventDefault();
-        handleSearchResults();
+        setSearchKey(e.target.value);
     };
-    ////////////////////////////////
-
-    // console.log(BlogCount);
-    // console.log(resPerPage);
     return (
         <Fragment>
                 <MetaData title="Home" />
@@ -62,10 +52,9 @@ function HomePage() {
                 handleSearchKey={(e) => setSearchKey(e.target.value)}
             />
             {loading ? <Loader /> : (
-                (blogs.length > 0) ? <BlogList blogs={blogs} /> : <EmptyList />
+                (blogs.length) ? <BlogList blogs={blogs} /> : <EmptyList />
                 
             )}
-
             <div className='flex mt-10 justify-center content-center'>
                 <Pagination
                     activePage={currentPage}

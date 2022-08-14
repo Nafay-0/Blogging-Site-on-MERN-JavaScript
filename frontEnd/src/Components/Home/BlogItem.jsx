@@ -20,7 +20,7 @@ const BlogItem = ({
       <img className='blogItem-cover' src= {'/assets/images/Purple-Combination-colors-graphic-design-predictions-1024x576-1024x576.jpg'} alt='cover' />
       <Chip label={category} />
       <h3>{title}</h3>
-      <p className='blogItem-desc'>{content}</p>
+      <p  className='blogItem-desc'>{content}</p>
       <footer>
         <div className='blogItem-author'>
           <img src={'/assets/images/author.jpg'} alt='avatar' />
