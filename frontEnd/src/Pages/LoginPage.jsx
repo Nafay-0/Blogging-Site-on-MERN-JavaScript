@@ -26,7 +26,6 @@ const LoginPage = () => {
         password: '',
         remember: false
     });
-
     function HandleRememberCheckbox(e) {
         setFormData({
             ...FormData,
@@ -44,7 +43,6 @@ const LoginPage = () => {
             password: '',
             remember: false
         });
-
     }
     return (
         
@@ -92,9 +90,7 @@ const LoginPage = () => {
                                             id="remember"
                                             checked={FormData.remember}
                                             onChange={HandleRememberCheckbox}
-
                                         />
-
                                         <label className="form-check-label inline-block text-gray-800" htmlFor="remember">
                                             Remember me
                                         </label>
@@ -118,10 +114,8 @@ const LoginPage = () => {
                                 >
                                     <p className="text-center font-semibold mx-4 mb-0">OR</p>
                                 </div>
-
                                 <Link
                                     className="px-7 py-3 bg-slate-900 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center"
-
                                     to='/SignUp'
                                     role="button"
                                     data-mdb-ripple="true"

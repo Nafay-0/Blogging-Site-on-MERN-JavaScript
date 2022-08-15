@@ -1,20 +1,56 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import { register,clearErrors } from '../Actions/userActions';
+import { useNavigate } from 'react-router-dom';
 
 
 
 const SignUpPage = () => {
-
-
-    const [FormData, setFormData] = React.useState({
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { user,isAuthenticated,errors,loading } = useSelector(state => state.auth);
+    const [Profile, setProfile] = React.useState({
         email: '',
         password: '',
         username: '',
     });
+    const [ProfilePicture, setProfilePicture] = React.useState(null);
+    function handleProfilePicture(e) {
+        const reader = new FileReader();
+        reader.onload = () => {
+            if(reader.readyState === 2) {
+                setProfilePicture(reader.result);
+            }
+        }
+        reader.readAsDataURL(e.target.files[0]);
+    }
+    React.useState(() => {
+        console.log("Checking if user is authenticated");
+        if(isAuthenticated){
+            // console.log('logged in');
+            navigate('/');
+        }
+        if(errors){
+            console.log(errors);
+            dispatch(clearErrors());
+        }
+    },[isAuthenticated,errors,dispatch,navigate]);
+    
+
     function HandleFormSubmit(e) {
         e.preventDefault();
-        console.log(FormData);
+        console.log(Profile);
+        const formData = new FormData();
+        formData.set('email', Profile.email);
+        formData.set('password', Profile.password);
+        formData.set('name', Profile.username);
+        formData.set('ProfilePicture', ProfilePicture);
+        
+        // console.log("Before dispatch",formData);
+        dispatch(register(formData));
     }
+
     return (
         <div>
             <section className="h-screen">
@@ -34,10 +70,10 @@ const SignUpPage = () => {
                                         type="name"
                                         className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                         placeholder="Enter your username"
-                                        value={FormData.name}
+                                        value={Profile.name}
                                         id="username"
                                         name='username'
-                                        onChange={(e) => setFormData({ ...FormData, username: e.target.value })}
+                                        onChange={(e) => setProfile({ ...Profile, username: e.target.value })}
                                     />
                                 </div>
                                 <div className="mb-6">
@@ -45,10 +81,10 @@ const SignUpPage = () => {
                                         type="text"
                                         className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                         placeholder="Email address"
-                                        value={FormData.email}
+                                        value={Profile.email}
                                         id="email"
                                         name='email'
-                                        onChange={(e) => setFormData({ ...FormData, email: e.target.value })}
+                                        onChange={(e) => setProfile({ ...Profile, email: e.target.value })}
                                     />
                                 </div>
                                 <div className="mb-6">
@@ -56,17 +92,33 @@ const SignUpPage = () => {
                                         type="password"
                                         className="form-control block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                         placeholder="Password"
-                                        value={FormData.password}
+                                        value={Profile.password}
                                         id="password"
                                         name='password'
-                                        onChange={(e) => setFormData({ ...FormData, password: e.target.value })}
+                                        onChange={(e) => setProfile({ ...Profile, password: e.target.value })}
                                     />
+                                </div>
+{/*                                 For adding profile picture */}
+                                <div>
+                                    <input
+                                        type="file"
+                                        className="form-control mb-8 block w-full px-4 py-2 text-xl font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                                        placeholder="Profile picture"
+                                        value={Profile.profilePicture}
+                                        id="ProfilePicture"
+                                        name='ProfilePicture'
+                                        accept='image/*'
+                                        onChange={handleProfilePicture}
+                                    />
+                                    
                                 </div>
                                 <button
                                     type="submit"
                                     className="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out w-full"
                                     data-mdb-ripple="true"
                                     data-mdb-ripple-color="light"
+                                    onClick={HandleFormSubmit}
+                                    disabled={loading}
                                 >
                                     Register
                                 </button>

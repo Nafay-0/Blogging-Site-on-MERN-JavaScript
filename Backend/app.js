@@ -7,12 +7,17 @@ app.use(cookieParser());
 const bodyParser = require("body-parser");
 const blogs = require('./Routes/Blog');
 const users = require('./Routes/User');
+const cloudinary = require('cloudinary');
+const FileUpload = require('express-fileupload');
 app.use(
         bodyParser.urlencoded({
-        extended: false
+        extended: true
     })
 );
 app.use(bodyParser.json());
+app.use(FileUpload());
+
+
 
 
 app.use('/api/blogs', blogs);

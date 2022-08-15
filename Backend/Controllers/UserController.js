@@ -4,6 +4,7 @@ const ErrorHandler = require('../utils/errorHandler');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
+const cloudinary = require('cloudinary');
 
 exports.getAllUsers = async (req, res, next) => {
     try {
@@ -44,12 +45,24 @@ exports.getUserById = async (req, res, next) => {
 
 exports.createUser = async (req, res, next) => {
     try {
+        // console.log(req.body);
+        const result = await cloudinary.v2.uploader.upload(
+            req.body.ProfilePicture,{
+                folder: 'Profiles',
+                width: 200,
+                crop : "scale"
+            }
+            );
         let { name, email, password } = req.body;
         password = await bcrypt.hash(password, 10);
         let user = await User.create({
             name: name,
             email: email,
-            password: password
+            password: password,
+            ProfilePicture: {
+                public_id : result.public_id,
+                url : result.secure_url
+            }
         });
         sendToken(user, 200, res);
     } catch (err) {
