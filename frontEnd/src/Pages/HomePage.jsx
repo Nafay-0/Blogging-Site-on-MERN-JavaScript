@@ -23,7 +23,7 @@ function HomePage() {
     const {loading,blogs,errors,BlogCount,resPerPage} = useSelector(state => state.blog);
     
     useEffect(() => {
-        console.log("Called");
+        
         dispatch(getBlogs(currentPage));
     }, [dispatch,currentPage]);
 
@@ -31,6 +31,10 @@ function HomePage() {
         if(searchKey){
             dispatch(FilterByCategory(searchKey));
         }
+        else{
+            dispatch(getBlogs(currentPage));
+        }
+        
     } , [searchKey,dispatch]);
 
     const handleClearSearch = () => {
@@ -59,7 +63,7 @@ function HomePage() {
                 <Pagination
                     activePage={currentPage}
                     itemsCountPerPage={resPerPage}
-                    totalItemsCount={BlogCount?BlogCount:0}
+                    totalItemsCount={BlogCount? BlogCount : 0}
                     onChange = {setCurrentPageNo}
                     nextPageText='Next'
                     prevPageText='Previous'

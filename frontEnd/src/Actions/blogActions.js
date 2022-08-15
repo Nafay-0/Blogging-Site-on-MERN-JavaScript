@@ -76,11 +76,3 @@ export const clearErrors = () => async (dispatch) => {
     })
 }
 
-// export const searchblogsByCategory = (category,blogs) =>  (dispatch) => {
-//     // filter blogs in the state by category
-//     const filteredBlogs = blogs.filter(blog => blog.category === category);
-//     dispatch({
-//         type: FETCH_BLOGS_SUCCESS,
-//         payload: filteredBlogs
-//     })
-// }

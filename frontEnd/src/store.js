@@ -4,9 +4,11 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 import { legacy_createStore as createStore} from 'redux'
 
 import { BlogDetailsReducers,blogReducers } from './reducers/blogReducers';
+import { authReducers } from './reducers/userReducers';
 const reducer = combineReducers({
     blog : blogReducers,
-    blogDetails : BlogDetailsReducers
+    blogDetails : BlogDetailsReducers,
+    auth : authReducers
 });
 
 let initialState = {

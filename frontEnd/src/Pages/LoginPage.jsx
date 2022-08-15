@@ -1,25 +1,55 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { login, clearErrors } from '../Actions/userActions';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Loader from '../Components/Layout/loader';
 
 const LoginPage = () => {
-    const [FormData,setFormData] = React.useState({
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { user,isAuthenticated,errors,loading } = useSelector(state => state.auth);
+    useEffect(() => {
+        if(isAuthenticated){
+           // console.log('logged in');
+            navigate('/');
+        }
+        if(errors){
+            console.log(errors);
+            dispatch(clearErrors());
+        }
+    },[isAuthenticated,errors]);
+    
+    const [FormData, setFormData] = React.useState({
         email: '',
         password: '',
         remember: false
     });
-    
-    function HandleRememberCheckbox(e){
+
+    function HandleRememberCheckbox(e) {
         setFormData({
             ...FormData,
             remember: e.target.checked
         });
     }
-    function HandleFormSubmit(e){
+    function HandleFormSubmit(e) {
         e.preventDefault();
-        console.log(FormData);
+        // console.log(FormData);
+        // const { email, password } = FormData;
+        // console.log(email, password);
+        dispatch(login(FormData.email, FormData.password));
+        setFormData({
+            email: '',
+            password: '',
+            remember: false
+        });
+
     }
     return (
+        
         <div>
+            {loading ? <Loader /> : (
             <section className="h-screen">
                 <div className="container px-6 py-12 h-full">
                     <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">
@@ -40,7 +70,7 @@ const LoginPage = () => {
                                         value={FormData.email}
                                         id="email"
                                         name='email'
-                                        onChange={(e)=>setFormData({...FormData,email:e.target.value})}
+                                        onChange={(e) => setFormData({ ...FormData, email: e.target.value })}
                                     />
                                 </div>
                                 <div className="mb-6">
@@ -51,7 +81,7 @@ const LoginPage = () => {
                                         value={FormData.password}
                                         id="password"
                                         name='password'
-                                        onChange={(e) => setFormData({...FormData,password: e.target.value})}
+                                        onChange={(e) => setFormData({ ...FormData, password: e.target.value })}
                                     />
                                 </div>
                                 <div className="flex justify-between items-center mb-6">
@@ -60,13 +90,13 @@ const LoginPage = () => {
                                             type="checkbox"
                                             className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                                             id="remember"
-                                            checked = {FormData.remember}
+                                            checked={FormData.remember}
                                             onChange={HandleRememberCheckbox}
-                                            
+
                                         />
-                                        
+
                                         <label className="form-check-label inline-block text-gray-800" htmlFor="remember">
-                                        Remember me
+                                            Remember me
                                         </label>
                                     </div>
                                     <a
@@ -88,22 +118,23 @@ const LoginPage = () => {
                                 >
                                     <p className="text-center font-semibold mx-4 mb-0">OR</p>
                                 </div>
-            
+
                                 <Link
                                     className="px-7 py-3 bg-slate-900 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full flex justify-center items-center"
-                                    
-                                    to = '/SignUp'
+
+                                    to='/SignUp'
                                     role="button"
                                     data-mdb-ripple="true"
                                     data-mdb-ripple-color="light"
                                 >
-                                        Sign Up Now
+                                    Sign Up Now
                                 </Link>
                             </form>
                         </div>
                     </div>
                 </div>
             </section>
+            )}
         </div>
     );
 }

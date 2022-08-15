@@ -12,7 +12,7 @@ const SearchBar = ({ formSubmit, value, handleSearchKey, clearSearch }) =>
           onChange={handleSearchKey}
         />
         {value && <span onClick={clearSearch}>X</span>}
-        <button>Go</button>
+        
       </form>
     </div>
   );

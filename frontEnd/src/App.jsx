@@ -12,9 +12,6 @@ import ProfilePage from './Pages/ProfilePage';
 import { BrowserRouter as Router,Route,Routes } from 'react-router-dom';
 
 function App() {
-
-  let FirstBlog = blogList[0];
-  console.log(FirstBlog);
   return (
     
     <Router>
@@ -22,7 +19,7 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/blog/:id" element={<BlogPage FirstBlog />} />
+        <Route path="/blog/:id" element={<BlogPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/profile" element={<ProfilePage />} />

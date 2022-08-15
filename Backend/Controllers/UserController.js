@@ -108,6 +108,8 @@ exports.deleteUser = async (req, res, next) => {
 }
 
 exports.Login = async (req, res, next) => {
+    // console.log("Called");
+    
     try {
         const { email, password } = req.body;
         if (!email || !password) {

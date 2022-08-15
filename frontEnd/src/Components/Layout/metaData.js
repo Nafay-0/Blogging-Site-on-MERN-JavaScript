@@ -3,7 +3,7 @@ import {Helmet} from 'react-helmet'
 
 
 
-const MetaData = (title) => {
+const MetaData = ({title}) => {
     return (
         <div>
             <Helmet>
