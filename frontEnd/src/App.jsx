@@ -7,13 +7,12 @@ import Navbar from './Components/Layout/Navbar';
 import Footer from './Components/Layout/Footer';
 import LoginPage from './Pages/LoginPage';
 import SignUpPage from './Pages/SignUpPage';
-import { blogList } from './blogData';
 import ProfilePage from './Pages/ProfilePage';
 import { BrowserRouter as Router,Route,Routes } from 'react-router-dom';
+import CreateBlog from './Pages/CreateBlog';
 
 function App() {
   return (
-    
     <Router>
     <div>
       <Navbar/>
@@ -23,6 +22,7 @@ function App() {
         <Route path="/login" element={<LoginPage hist/>} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/create" element={<CreateBlog />} />
       </Routes>
       <Footer/>
       </div>

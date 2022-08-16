@@ -34,9 +34,6 @@ const LoginPage = () => {
     }
     function HandleFormSubmit(e) {
         e.preventDefault();
-        // console.log(FormData);
-        // const { email, password } = FormData;
-        // console.log(email, password);
         dispatch(login(FormData.email, FormData.password));
         setFormData({
             email: '',

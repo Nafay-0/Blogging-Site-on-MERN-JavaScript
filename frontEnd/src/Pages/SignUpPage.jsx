@@ -25,10 +25,10 @@ const SignUpPage = () => {
         }
         reader.readAsDataURL(e.target.files[0]);
     }
-    React.useState(() => {
-        console.log("Checking if user is authenticated");
+    React.useEffect(() => {
+        //console.log("Checking if user is authenticated");
         if(isAuthenticated){
-            // console.log('logged in');
+         //   console.log('registered');
             navigate('/');
         }
         if(errors){
@@ -118,7 +118,7 @@ const SignUpPage = () => {
                                     data-mdb-ripple="true"
                                     data-mdb-ripple-color="light"
                                     onClick={HandleFormSubmit}
-                                    disabled={loading}
+                                    
                                 >
                                     Register
                                 </button>
