@@ -3,16 +3,25 @@ const Blog = require('../Models/Blog');
 const Review = require('../Models/Review');
 
 const APIfeatures = require('../utils/apiFeatures');
-
+const cloudinary = require('cloudinary');
 
 exports.createBlog = async (req, res, next) => {
     try {
+        console.log(req.body.cover);
         let { title, content, category, Author } = req.body;
+        const result = await cloudinary.v2.uploader.upload(
+            req.body.cover,{
+                folder: 'Covers',
+                width: 400,
+                crop : "fill"
+            }
+            );
         let blog = await Blog.create({
             title: title,
             content: content,
             category: category,
-            Author: Author
+            Author: Author,
+            cover: result.secure_url
         });
         res.status(200).json({
             success: true,

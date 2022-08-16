@@ -6,9 +6,11 @@ import {
     CLEAR_ERRORS,
     FETCH_BLOG_DETAILS_REQUEST,
     FETCH_BLOG_DETAILS_SUCCESS,
-    FETCH_BLOG_DETAILS_FAILURE
+    FETCH_BLOG_DETAILS_FAILURE,
+    ADD_BLOG_REQUEST,
+    ADD_BLOG_SUCCESS,
+    ADD_BLOG_FAILURE
 } from '../constants/blogConstants';
-
 export const getBlogs = (currentPage = 1) => async (dispatch) => {
     
     try{
@@ -76,3 +78,31 @@ export const clearErrors = () => async (dispatch) => {
     })
 }
 
+export const addBlog = (blogData) => async (dispatch) => {
+    console.log(blogData.title);
+    console.log(blogData.content);
+    console.log(blogData.category);
+    console.log(blogData.cover);
+    console.log(blogData.Author);
+        dispatch({
+        type: ADD_BLOG_REQUEST
+        });
+    try{
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+        const res = await axios.post('/api/blogs', blogData, config);
+        dispatch({
+            type: ADD_BLOG_SUCCESS,
+            payload: res.data
+        });
+    }
+    catch (error) {
+        dispatch({
+            type: ADD_BLOG_FAILURE,
+            payload: error.response.data.message
+        })
+    };
+}

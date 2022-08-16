@@ -13,7 +13,7 @@ const { getAllBlogs,
     getReviewsByBlog } = require('../Controllers/BlogController');
 
 router.route('/').get(getAllBlogs);
-router.route('/').post(isAuthenticated,createBlog);
+router.route('/').post(createBlog);
 router.route('/:id').get(getBlogById);
 router.route('/author/:id').get(getBlogByAuthor);
 router.route('/:id').put(isAuthenticated,HandleUserRole,updateBlog);

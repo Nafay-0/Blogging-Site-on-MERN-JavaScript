@@ -8,7 +8,10 @@ const { getAllUsers,
     Login,
     logOutUser,
     forgotPassword,
-    resetPassword} = require('../Controllers/UserController');
+    resetPassword,
+    } = require('../Controllers/UserController');
+
+const {isAuthenticated,HandleUserRole} = require('../middlewares/auth');
 
 router.route('/').get(getAllUsers);
 router.route('/:id').get(getUserById);

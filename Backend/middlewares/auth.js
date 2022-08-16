@@ -3,6 +3,7 @@ const ErrorHandler = require('../middlewares/errors');
 const User = require('../Models/User');
 const Blog = require('../Models/Blog');
 exports.isAuthenticated = async (req, res, next) => {
+    console.log("Called");
     try{
         const {jwtToken} = req.cookies;
       //  console.log(jwtToken);
@@ -14,7 +15,9 @@ exports.isAuthenticated = async (req, res, next) => {
         }
         const decode = jwt.verify(jwtToken, process.env.JWT_SECRET);
        // console.log(decode);
+        console.log(decode.id);
         req.user = await User.findById(decode.id);
+        console.log(req.user);
         next();
     }
     catch(err)

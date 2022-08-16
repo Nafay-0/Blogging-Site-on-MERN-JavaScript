@@ -22,7 +22,7 @@ export const authReducers = (state = { user: {} }, action) => {
         case REGISTER_SUCCESS:
             return {
                 loading: false,
-                user: action.payload.User,
+                user: action.payload,
                 isAuthenticated:true,
                 message : action.payload.message
             };

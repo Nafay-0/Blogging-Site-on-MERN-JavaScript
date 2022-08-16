@@ -5,7 +5,10 @@ import {
     CLEAR_ERRORS,
     FETCH_BLOG_DETAILS_REQUEST,
     FETCH_BLOG_DETAILS_SUCCESS,
-    FETCH_BLOG_DETAILS_FAILURE
+    FETCH_BLOG_DETAILS_FAILURE,
+    ADD_BLOG_REQUEST,
+    ADD_BLOG_SUCCESS,
+    ADD_BLOG_FAILURE
 } from '../constants/blogConstants';
 export const blogReducers = (state = { blogs: [] }, action) => {
     switch (action.type) {
@@ -39,24 +42,30 @@ export const blogReducers = (state = { blogs: [] }, action) => {
 
 
 
-export const BlogDetailsReducers = (state = { blog: {} }, action) => {
+export const BlogDetailsReducers = (state = { blog: {},created:false}, action) => {
     switch (action.type) {
         case FETCH_BLOG_DETAILS_REQUEST:
+        case ADD_BLOG_REQUEST:
             return {
                 loading: true,
-                blog: {}
+                blog: {},
+                created:false,
             };
         case FETCH_BLOG_DETAILS_SUCCESS:
+        case ADD_BLOG_SUCCESS:
             return {
                 loading: false,
                 blog: action.payload.blog,
-                message : action.payload.message
+                message : action.payload.message,
+                created : true
                 
             };
         case FETCH_BLOG_DETAILS_FAILURE:
+        case ADD_BLOG_FAILURE:
             return {
                 loading: false,
-                error: action.payload
+                error: action.payload,
+                created : false
             };
         case CLEAR_ERRORS:
             return {

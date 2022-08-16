@@ -242,3 +242,4 @@ exports.resetPassword = async (req, res, next) => {
         return next(new ErrorHandler(500, 'User could not be found'));
     }
 }
+
