@@ -10,18 +10,18 @@ import { getBlogDetails } from '../Actions/blogActions';
 import Loader from '../Components/Layout/loader';
 import CommentBox from '../Components/Common/commentBox';
 
+
 const Blog = (props) => {
 
-  console.log("Caleed blog page");
+    console.log("Caleed blog page");
+    const {user} = useSelector(state => state.auth);
+
     const {id} = useParams();
-    console.log(id);
+    // console.log(id);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getBlogDetails(id));
     } , [dispatch,id]);
-    // const {loading,blog,errors} = useSelector(state => state.blogDetails);
-    // console.log(blog);
-    // const [blogDetails, setBlogDetails] = useState(blog);
     const {loading,blog} = useSelector(state => state.blogDetails);
     
 
@@ -45,7 +45,10 @@ const Blog = (props) => {
         </header>
         <img src= {'/assets/images/Purple-Combination-colors-graphic-design-predictions-1024x576-1024x576.jpg'} alt='cover' />
           <p className='blog-desc'>{blog.content}</p>
-          <CommentBox />
+          {user.name? 
+            <CommentBox blogId = {id} user = {user} />
+            : null
+          }
       </div>
       )}
     </>

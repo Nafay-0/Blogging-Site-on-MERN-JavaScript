@@ -7,8 +7,9 @@ const cloudinary = require('cloudinary');
 
 exports.createBlog = async (req, res, next) => {
     try {
-        console.log(req.body.cover);
+        // console.log(req.body);
         let { title, content, category, Author } = req.body;
+        // console.log(req.body.cover);
         const result = await cloudinary.v2.uploader.upload(
             req.body.cover,{
                 folder: 'Covers',
@@ -29,6 +30,7 @@ exports.createBlog = async (req, res, next) => {
             blog: blog
         });
     } catch (err) {
+        console.log(err);
         res.status(500).json({
             success: false,
             message: 'Blog could not be created',

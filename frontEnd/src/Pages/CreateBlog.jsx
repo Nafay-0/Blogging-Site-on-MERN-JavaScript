@@ -1,30 +1,39 @@
 import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import {addBlog} from '../Actions/blogActions';
+import {addBlog,clearErrors} from '../Actions/blogActions';
 import { useNavigate } from 'react-router-dom';
 
 const CreateBlog = () => {
-    
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [blogData, setBlogData] = React.useState({
         title: "",
         content: "",
         category: "",
     });
     const [coverImage, setCoverImage] = React.useState(null);
-
-    const dispatch = useDispatch();
-    const {loading,blog,created} = useSelector(state => state.blogDetails);
+    const {loading,created,error} = useSelector(state => state.blogCreate);
+    const {user} = useSelector(state => state.auth);
+    
     React.useEffect(() => {
+        // if user is undefined, redirect to login page
+        console.log("Checking if user is authenticated");
+        console.log(user);
+        if(!user.name){
+            navigate('/login');
+        }
+        
+
+        if(error){
+            console.log(error);
+            dispatch(clearErrors());
+        }
         if(created){
             console.log("Created blog");
             navigate('/');
         }
     }, [created,navigate]);
 
-    
-    const {user} = useSelector(state => state.auth);
-    
     
     const handleChange = (e) => {
         setBlogData({
@@ -34,21 +43,29 @@ const CreateBlog = () => {
     }
     const handleImageChange = (e) => {
         console.log(e);
-        setCoverImage(e.target.files[0]);
+        const reader = new FileReader();
+        reader.onload = () => {
+            if(reader.readyState === 2) {
+                setCoverImage(reader.result);
+            }
+        }
+        reader.readAsDataURL(e.target.files[0]);
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(blogData);
+        // console.log(blogData);
         console.log(coverImage);
-        console.log(user);
-        const formdata = new FormData(blogData);
-        // formdata.set('title', blogData.title);
-        // formdata.set('content', blogData.content);
-        // formdata.set('category', blogData.category);
-        // formdata.set('cover', coverImage);
-        // formdata.set('Author', user.name);
-        // console.log(formdata);
-        // dispatch(addBlog(formdata));
+        // console.log(user);
+        console.log(blogData.title);
+        console.log(blogData.content);
+        console.log(blogData.category);
+        const formData = new FormData();
+        formData.set('title', blogData.title);
+        formData.set('content', blogData.content);
+        formData.set('category', blogData.category);
+        formData.set('cover', coverImage); 
+        formData.set('Author', user.name);
+        dispatch(addBlog(formData));   
     }
         
     return (

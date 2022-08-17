@@ -79,11 +79,6 @@ export const clearErrors = () => async (dispatch) => {
 }
 
 export const addBlog = (blogData) => async (dispatch) => {
-    console.log(blogData.title);
-    console.log(blogData.content);
-    console.log(blogData.category);
-    console.log(blogData.cover);
-    console.log(blogData.Author);
         dispatch({
         type: ADD_BLOG_REQUEST
         });

@@ -45,14 +45,14 @@ export const blogReducers = (state = { blogs: [] }, action) => {
 export const BlogDetailsReducers = (state = { blog: {},created:false}, action) => {
     switch (action.type) {
         case FETCH_BLOG_DETAILS_REQUEST:
-        case ADD_BLOG_REQUEST:
+        
             return {
                 loading: true,
                 blog: {},
                 created:false,
             };
         case FETCH_BLOG_DETAILS_SUCCESS:
-        case ADD_BLOG_SUCCESS:
+        
             return {
                 loading: false,
                 blog: action.payload.blog,
@@ -61,6 +61,37 @@ export const BlogDetailsReducers = (state = { blog: {},created:false}, action) =
                 
             };
         case FETCH_BLOG_DETAILS_FAILURE:
+        
+            return {
+                loading: false,
+                error: action.payload,
+                created : false
+            };
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            };
+
+        default:
+            return state;
+    }
+}
+
+export const blogCreateReducers = (state = { created:false}, action) => {
+    switch (action.type) {
+        case ADD_BLOG_REQUEST:
+            return {
+                loading: true,
+                created:false,
+            };
+        case ADD_BLOG_SUCCESS:
+            return {
+                loading: false,
+                message : action.payload.message,
+                created : true
+                
+            };
         case ADD_BLOG_FAILURE:
             return {
                 loading: false,

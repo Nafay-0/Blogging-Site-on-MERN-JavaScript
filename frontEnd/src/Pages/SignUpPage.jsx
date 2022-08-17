@@ -41,13 +41,14 @@ const SignUpPage = () => {
     function HandleFormSubmit(e) {
         e.preventDefault();
         console.log(Profile);
+        console.log(ProfilePicture);
         const formData = new FormData();
         formData.set('email', Profile.email);
         formData.set('password', Profile.password);
         formData.set('name', Profile.username);
         formData.set('ProfilePicture', ProfilePicture);
+        console.log("Before dispatch",formData.email);
         
-        // console.log("Before dispatch",formData);
         dispatch(register(formData));
     }
 
