@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 export default function NavBar() {
+    const {user} = useSelector(state => state.auth);
     return (
         <nav className="navbar navbar-dark navbar-expand-md bg-dark py-3 mb-3">
             <div className="container">
@@ -51,10 +52,15 @@ export default function NavBar() {
                             </Link>
                         </li>
                     </ul>
-                    
+                    {!user.name? ( 
                     <Link className="btn btn-primary ms-md-2" role="button" to="/signup">
                         Get Started
                     </Link>
+                    ) : (
+                    <Link className="btn btn-primary ms-md-2" role="button" to="/profile">
+                        View Profile
+                    </Link>
+                )}
                 </div>
             </div>
         </nav>

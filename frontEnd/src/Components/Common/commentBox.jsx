@@ -1,22 +1,19 @@
 import React from 'react';
 import ReactStars from "react-rating-stars-component";
-import {useDispatch,useSelector} from 'react-redux';
-import {createReview,getReviews} from '../../Actions/reviewActions';
-import {useEffect,useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {createReview} from '../../Actions/reviewActions';
 import { useNavigate } from 'react-router-dom';
 
 const CommentBox = ({blogId,user}) => {
     const navigate = useNavigate();
     const dispatcher = useDispatch();
+    
     const [comment, setComment] = React.useState('');
     const [rating, setRating] = React.useState(0);
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // console.log(comment);
-        // console.log(blogId);
-        // console.log(rating);
-        // console.log(user._id);
+        console.log(comment,rating);
         dispatcher(createReview(blogId,user._id,comment,rating));
         setComment('');
         setRating(0);

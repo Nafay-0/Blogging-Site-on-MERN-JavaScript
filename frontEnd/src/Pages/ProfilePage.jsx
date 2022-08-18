@@ -1,6 +1,17 @@
 import React from 'react';
+import {useDispatch,useSelector} from 'react-redux';
+import { useNavigate } from 'react-router-dom'
 
 const ProfilePage = () => {
+    const dispatcher = useDispatch();
+    const navigator = useNavigate();
+    const{user} = useSelector(state => state.auth);
+    console.log(user);
+    React.useEffect(() => {
+        if(!user.name){
+            navigator('/login');
+        }
+    })
     return (
         <div>
             <main className="profile-page">
@@ -46,7 +57,7 @@ const ProfilePage = () => {
                                         <div className="relative">
                                             <img
                                                 alt="..."
-                                                src='https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=800&q=80'
+                                                src= {user.ProfilePicture[0].url}
                                                 className="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16"
                                                 style={{ maxWidth: "150px" }}
                                             />
@@ -86,7 +97,7 @@ const ProfilePage = () => {
                                 </div>
                                 <div className="text-center mt-12">
                                     <h3 className="text-4xl font-semibold leading-normal mb-2 text-gray-800">
-                                        Jenna Stones
+                                        {user.name}
                                     </h3>
                                     <div className="text-sm leading-normal mt-0 mb-2 text-gray-500 font-bold uppercase">
                                         <i className="fas fa-map-marker-alt mr-2 text-lg text-gray-500"></i>{" "}

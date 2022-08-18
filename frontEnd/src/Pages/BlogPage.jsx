@@ -1,26 +1,28 @@
 
 import './BlogPage.css'
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router';
-import EmptyList from '../Components/Common/emptylist';
-import Chip from '../Components/Common/chip';
 import { Link } from 'react-router-dom';
 import {useDispatch,useSelector} from 'react-redux';
 import { getBlogDetails } from '../Actions/blogActions';
 import Loader from '../Components/Layout/loader';
 import CommentBox from '../Components/Common/commentBox';
-
+import {getReviews} from '../Actions/reviewActions';
+import Review from '../Components/Common/Review';
 
 const Blog = (props) => {
 
     console.log("Caleed blog page");
     const {user} = useSelector(state => state.auth);
+    const {reviews} = useSelector(state => state.fetchReview);
+    console.log(reviews);
 
     const {id} = useParams();
     // console.log(id);
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getBlogDetails(id));
+        dispatch(getBlogDetails(id))
+        dispatch(getReviews(id))
     } , [dispatch,id]);
     const {loading,blog} = useSelector(state => state.blogDetails);
     
@@ -43,8 +45,16 @@ const Blog = (props) => {
               <h3 className='mt-4 ml-2 text-blue-600'>By : {blog.Author}</h3>
           </div>
         </header>
-        <img src= {'/assets/images/Purple-Combination-colors-graphic-design-predictions-1024x576-1024x576.jpg'} alt='cover' />
+        <img src= {blog.cover} alt='cover' />
           <p className='blog-desc'>{blog.content}</p>
+          <div className='blog-review'>
+              <h3>Reviews</h3>
+              {reviews.map((review, i) => (
+                <div key={i}>
+                  <Review Comment={review.Comment} Rating={review.Rating} />
+                </div>
+              ))}
+          </div>
           {user.name? 
             <CommentBox blogId = {id} user = {user} />
             : null
