@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactStars from "react-rating-stars-component";
 import {useDispatch} from 'react-redux';
-import {createReview} from '../../Actions/reviewActions';
-import { useNavigate } from 'react-router-dom';
+
+
 
 const CommentBox = ({blogId,user,setComment,setRating,comment,rating,handleSubmit}) => {
-    const navigate = useNavigate();
-    const dispatcher = useDispatch();
+    
+
     
 
     

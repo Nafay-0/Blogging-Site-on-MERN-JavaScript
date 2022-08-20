@@ -35,11 +35,7 @@ const Blog = (props) => {
     setRating(0);
     navigate('/');
 }
-
-
-
   const { loading, blog } = useSelector(state => state.blogDetails);
-
   return (
     <Fragment>
       <Link className='blog-goBack' to='/'>

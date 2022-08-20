@@ -24,7 +24,7 @@ export const authReducers = (state = { user: {} }, action) => {
                 loading: false,
                 user: action.payload,
                 isAuthenticated:true,
-                message : action.payload.message
+                message : "Success"
             };
         case LOGIN_FAILURE:
         case REGISTER_FAILURE:

@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom';
 import {useDispatch, useSelector} from 'react-redux';
 import { register,clearErrors } from '../Actions/userActions';
 import { useNavigate } from 'react-router-dom';
+import Alert from '../Components/Common/Alert';
 
 
 
 const SignUpPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { user,isAuthenticated,errors,loading } = useSelector(state => state.auth);
+    const [showAlert, setShowAlert] = React.useState(false);
+    const { user,isAuthenticated,error,loading } = useSelector(state => state.auth);
     const [Profile, setProfile] = React.useState({
         email: '',
         password: '',
@@ -31,11 +33,12 @@ const SignUpPage = () => {
          //   console.log('registered');
             navigate('/');
         }
-        if(errors){
-            console.log(errors);
-            dispatch(clearErrors());
+        if(error){
+            console.log(error);
+            setShowAlert(true);
+            // dispatch(clearErrors());
         }
-    },[isAuthenticated,errors,dispatch,navigate]);
+    },[isAuthenticated,error,dispatch,navigate]);
     
 
     function HandleFormSubmit(e) {
@@ -54,6 +57,7 @@ const SignUpPage = () => {
 
     return (
         <div>
+            {showAlert && <Alert message={error} />}
             <section className="h-screen">
                 <div className="container px-6 py-12 h-full">
                     <div className="flex justify-center items-center flex-wrap h-full g-6 text-gray-800">

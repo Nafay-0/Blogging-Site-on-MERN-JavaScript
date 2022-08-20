@@ -52,7 +52,7 @@ export default function NavBar() {
                             </Link>
                         </li>
                     </ul>
-                    {!user.name? ( 
+                    {!(user && user.name)? ( 
                     <Link className="btn btn-primary ms-md-2" role="button" to="/signup">
                         Get Started
                     </Link>

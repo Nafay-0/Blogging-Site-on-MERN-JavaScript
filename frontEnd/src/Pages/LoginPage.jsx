@@ -5,21 +5,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../Components/Layout/loader';
+import Alert from '../Components/Common/Alert';
 
 const LoginPage = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { user,isAuthenticated,errors,loading } = useSelector(state => state.auth);
+    const { user,isAuthenticated,error,loading } = useSelector(state => state.auth);
+    const [showAlert, setShowAlert] = React.useState(false);
     useEffect(() => {
         if(isAuthenticated){
            // console.log('logged in');
             navigate('/');
         }
-        if(errors){
-            console.log(errors);
-            dispatch(clearErrors());
+        if(error){
+            console.log(error);
+            setShowAlert(true);
+            //dispatch(clearErrors());
         }
-    },[isAuthenticated,errors]);
+    },[isAuthenticated,error]);
     
     const [FormData, setFormData] = React.useState({
         email: '',
@@ -44,6 +47,7 @@ const LoginPage = () => {
     return (
         
         <div>
+            {showAlert && <Alert message={error} />}
             {loading ? <Loader /> : (
             <section className="h-screen">
                 <div className="container px-6 py-12 h-full">
