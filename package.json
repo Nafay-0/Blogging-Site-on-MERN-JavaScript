@@ -1,0 +1,38 @@
+{
+  "name": "bloggingsite",
+  "version": "1.0.0",
+  "description": "mern stack based blogging website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "SET NODE.ENV = DEVELOPMENT && nodemon backend/server.js",
+    "prod": "SET NODE.ENV = PRODUCTION && nodemon backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Nafay-0/Blogging-Site.git"
+  },
+  "author": "Nafay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Nafay-0/Blogging-Site/issues"
+  },
+  "homepage": "https://github.com/Nafay-0/Blogging-Site#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.30.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "install": "^0.13.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.5.1",
+    "nodemailer": "^6.7.7",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
